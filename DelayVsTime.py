@@ -30,7 +30,7 @@ plt.title("Average Departure Delay vs Time")
 plt.xlabel("Date")
 plt.ylabel("Average Delay (minutes)")
 
-# ✅ Set monthly ticks
+# --- Set monthly ticks --- 
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%b'))  # Jan, Feb, etc.
 
