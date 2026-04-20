@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 1. LOAD (from your kagglehub path)
+# 1. LOAD (from kagglehub)
 import kagglehub
 
 path = kagglehub.dataset_download("hrishitpatil/flight-data-2024")
@@ -14,10 +14,9 @@ df["dep_delay"] = pd.to_numeric(df["dep_delay"], errors="coerce")
 
 df = df.dropna(subset=["fl_date", "dep_delay"])
 
-# Poisson event: major delay
+# Define Poisson event: major delay
 threshold = 60
 df["is_event"] = df["dep_delay"] >= threshold
-
 
 # 3. DAILY COUNT TIME SERIES
 daily = df.groupby("fl_date")["is_event"].sum().sort_index()
@@ -30,13 +29,12 @@ for lag in [1, 2, 3, 7]:
     corr = daily.corr(daily.shift(lag))
     print(f"Lag {lag}: {corr:.4f}")
 
-
-# 2. CONSTANT RATE (WITHIN MONTH VISUAL CHECK)
+# 2. CONSTANT RATE (MONTHLY CHECK)
 df["month"] = df["fl_date"].dt.month
 
 print("\n🔹 Constant Rate Check (Sample Months)")
 
-for m in [1, 7, 12]:
+for m in [4, 7]:
     temp = df[df["month"] == m].groupby("fl_date")["is_event"].sum()
 
     print(f"\nMonth {m}")
